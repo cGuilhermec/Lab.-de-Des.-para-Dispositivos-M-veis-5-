@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: API Agricultura
+  description: Documentação da API para o projeto de agricultura
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3001
+    description: Servidor local
+
+paths:
+  /produtos:
+    get:
+      summary: Lista todos os produtos
+      responses:
+        '200':
+          description: Lista de produtos retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nome:
+                      type: string
+                    preco:
+                      type: number
+    post:
+      summary: Cria um novo produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                preco:
+                  type: number
+      responses:
+        '201':
+          description: Produto criado com sucesso

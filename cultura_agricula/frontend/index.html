@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recomendação de Culturas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0f9f4;
+      --card: #ffffff;
+      --text: #1a3d2b;
+      --muted: #3e6b4b;
+      --accent: #66bb6a;
+      --fs-base: 1rem;
+      --fs-lg: 1.25rem;
+      --radius: 1rem;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    * { box-sizing: border-box; margin:0; padding:0; font-family: 'Roboto', sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.5; }
+    header { background: var(--accent); color: #fff; padding: 1rem 2rem; text-align:center; }
+    header h1 { font-size: 1.8rem; }
+    main { display: flex; flex-direction: column; align-items: center; padding: 2rem; gap: 2rem; }
+    .card { background: var(--card); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); width: 100%; max-width: 500px; }
+    label { display:block; margin-bottom:0.5rem; font-weight:700; }
+    input, select { width:100%; padding:0.75rem; margin-bottom:1rem; border-radius:0.5rem; border:1px solid #ccc; font-size:var(--fs-base); }
+    button { width:100%; padding:0.75rem; background: var(--accent); color:#fff; border:none; border-radius:0.5rem; font-size:var(--fs-lg); cursor:pointer; transition: 0.3s; }
+    button:hover { background: #57a05a; }
+    #result { margin-top:1rem; font-weight:700; color: var(--muted); text-align:center; font-size:1.2rem; }
+    footer { text-align:center; padding:1rem; color: var(--muted); }
+    @media(min-width:768px){ main { padding:4rem; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🌱 Recomendação de Culturas Agrícolas</h1>
+</header>
+
+<main>
+  <div class="card">
+    <form id="agriForm">
+      <label for="temperature">Temperatura (°C)</label>
+      <input type="number" id="temperature" name="temperature" required min="-10" max="50" step="0.1">
+
+      <label for="humidity">Umidade (%)</label>
+      <input type="number" id="humidity" name="humidity" required min="0" max="100" step="0.1">
+
+      <label for="soil">Tipo de Solo</label>
+      <select id="soil" name="soil" required>
+        <option value="">Selecione</option>
+        <option value="arenoso">Arenoso</option>
+        <option value="argiloso">Argiloso</option>
+        <option value="silto-argiloso">Silto-argiloso</option>
+        <option value="humoso">Humoso</option>
+      </select>
+
+      <button type="submit">Obter Recomendação</button>
+    </form>
+    <div id="result"></div>
+  </div>
+</main>
+
+<footer>
+  © 2025 Guilherme Carvalho
+</footer>
+
+<script>
+  const form = document.getElementById('agriForm');
+  const resultDiv = document.getElementById('result');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const temperature = parseFloat(form.temperature.value);
+    const humidity = parseFloat(form.humidity.value);
+    const soil = form.soil.value;
+
+    try {
+      const res = await fetch('http://localhost:3005/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ temperature, humidity, soil })
+      });
+
+      const data = await res.json();
+
+      if(res.ok){
+        resultDiv.textContent = `🌿 Cultura recomendada: ${data.culture}`;
+      } else {
+        resultDiv.textContent = data.message || 'Erro na recomendação';
+      }
+    } catch(err){
+      resultDiv.textContent = 'Erro de conexão com o servidor';
+    }
+  });
+</script>
+
+</body>
+</html>
