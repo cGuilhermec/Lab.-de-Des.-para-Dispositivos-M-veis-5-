@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { UserController } from "../controller/userController";
 
 export const router = express.Router();
 
@@ -6,18 +7,7 @@ export const router = express.Router();
 let users: { id: number; name: string; email: string }[] = [];
 
 // CREATE - POST /users
-router.post("/users", (req: Request, res: Response) => {
-  const { name, email } = req.body;
-
-  if (!name || !email) {
-    return res.status(400).json({ message: "Nome e email são obrigatórios" });
-  }
-
-  const newUser = { id: Date.now(), name, email };
-  users.push(newUser);
-
-  return res.status(201).json(newUser);
-});
+router.post("/users", UserController.createProdutor.bind(UserController));
 
 // READ ALL - GET /users
 router.get("/users", (req: Request, res: Response) => {
@@ -65,3 +55,5 @@ router.delete("/users/:id", (req: Request, res: Response) => {
 
   return res.json({ message: "Usuário deletado", user: deletedUser[0] });
 });
+
+

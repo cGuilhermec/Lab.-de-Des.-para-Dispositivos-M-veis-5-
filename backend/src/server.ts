@@ -1,17 +1,15 @@
 import express from "express";
 import cors from "cors";
 import { router } from "./router/router";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const Port = 3005;
 
 // 1️⃣ Habilita o CORS
-app.use(
-  cors({
-    origin: ["http://localhost:3005", "http://localhost:3001"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 // 2️⃣ Habilita o parsing de JSON
 app.use(express.json());
