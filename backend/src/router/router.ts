@@ -1,59 +1,18 @@
-import express, { Request, Response } from "express";
-import { UserController } from "../controller/userController";
+import { Router } from "express";
+import { userController } from '../controller/userController'
+import { LoginController } from "../controller/loginController";
+const router = Router();
 
-export const router = express.Router();
-
-// Simulando um "banco de dados" em memória
-let users: { id: number; name: string; email: string }[] = [];
-
-// CREATE - POST /users
-router.post("/users", UserController.createProdutor.bind(UserController));
-
-// READ ALL - GET /users
-router.get("/users", (req: Request, res: Response) => {
-  return res.json(users);
-});
-
-// READ ONE - GET /users/:id
-router.get("/users/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const user = users.find((u) => u.id === id);
-
-  if (!user) {
-    return res.status(404).json({ message: "Usuário não encontrado" });
-  }
-
-  return res.json(user);
-});
-
-// UPDATE - PUT /users/:id
-router.put("/users/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const { name, email } = req.body;
-
-  const userIndex = users.findIndex((u) => u.id === id);
-
-  if (userIndex === -1) {
-    return res.status(404).json({ message: "Usuário não encontrado" });
-  }
-
-  users[userIndex] = { ...users[userIndex], name, email };
-
-  return res.json(users[userIndex]);
-});
-
-// DELETE - DELETE /users/:id
-router.delete("/users/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const userIndex = users.findIndex((u) => u.id === id);
-
-  if (userIndex === -1) {
-    return res.status(404).json({ message: "Usuário não encontrado" });
-  }
-
-  const deletedUser = users.splice(userIndex, 1);
-
-  return res.json({ message: "Usuário deletado", user: deletedUser[0] });
-});
-
-
+// CREATE
+router.post("/users", userController.createUser.bind(userController));
+// READ ALL
+router.get("/users", userController.getUsers.bind(userController));
+// READ ONE
+router.get("/users/:id", userController.getUserById.bind(userController));
+// UPDATE
+router.put("/users/:id", userController.updateUser.bind(userController));
+// DELETE
+router.delete("/users/:id", userController.deleteUser.bind(userController));
+// LOGIN
+router.post('/login', LoginController.login.bind(LoginController));
+export default router;

@@ -3,150 +3,221 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cadastro de Usuários</title>
+  <title>Sistema de Usuários</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0b0f14;
-      --card: #10161d;
-      --muted: #8aa0b6;
-      --text: #e6eef6;
-      --accent: #7dd3fc;
-      --fs-base: clamp(1rem, 0.9rem + 0.4vw, 1.125rem);
-      --fs-sm: clamp(0.9rem, 0.8rem + 0.25vw, 1rem);
-      --fs-lg: clamp(1.125rem, 1rem + 0.6vw, 1.35rem);
-      --fs-h1: clamp(2rem, 1.2rem + 5vw, 4rem);
-      --fs-h2: clamp(1.4rem, 1.1rem + 2.5vw, 2.2rem);
-      --radius: 1.25rem;
-      --shadow: 0 10px 30px rgba(0,0,0,.25);
-      --header-h: 64px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      font-size: var(--fs-base);
-      color: var(--text);
-      background: radial-gradient(1200px 600px at 80% -10%, #13202b 0%, transparent 60%),
-                  radial-gradient(1000px 500px at -10% -15%, #11222e 0%, transparent 60%),
-                  var(--bg);
-      line-height: 1.6;
-    }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    .img-fluid { width: 100%; height: auto; display: block; }
-
-    .header {
-      position: fixed; inset: 0 0 auto 0;
-      height: var(--header-h);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 1000; backdrop-filter: blur(10px);
-      background: rgba(10,15,20,0.55); border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    .nav { width: min(1200px, 92vw); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-    .brand { font-weight: 800; letter-spacing: .4px; font-size: 1.05rem; }
-    .menu { display: flex; gap: 1rem; align-items: center; }
-    .menu a { padding: .55rem .8rem; border-radius: .75rem; font-size: var(--fs-sm); color: var(--muted); }
-    .menu a:hover { color: var(--text); background: rgba(255,255,255,.06); }
-    .cta { padding: .6rem .95rem; border-radius: 999px; background: linear-gradient(135deg, var(--accent), #60a5fa); color: #0a0f14; font-weight: 700; box-shadow: var(--shadow); }
-
-    section { padding: 3rem 0; }
-    .container { width: min(1100px, 92vw); margin: 0 auto; }
-
-    .hero { min-height: 100svh; display: grid; place-items: center; text-align: center; padding-top: calc(var(--header-h) + 2rem); }
-    .hero h1 { font-size: var(--fs-h1); line-height: 1.05; margin: 0 0 1rem; }
-    .hero p { color: var(--muted); font-size: var(--fs-lg); margin: 0 0 2rem; }
-
-    .btn { display: inline-block; padding: .9rem 1.2rem; border-radius: 999px; font-weight: 700; }
-    .btn-primary { background: linear-gradient(135deg, var(--accent), #60a5fa); color: #0a0f14; box-shadow: var(--shadow); }
-    .btn-ghost { color: var(--text); border: 1px solid rgba(255,255,255,.12); }
-
-    .card { background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); max-width: 500px; margin: 0 auto; }
-    input, label { display: block; width: 100%; margin-bottom: 1rem; font-size: var(--fs-sm); }
-    input { padding: .65rem; border-radius: .75rem; border: 1px solid rgba(255,255,255,.12); background: #0f161f; color: var(--text); }
-    input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(125,211,252,.3); }
-
-    @media (min-width: 768px) { .hero { text-align: left; } .hero .container { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 2rem; } }
+    :root{--bg:#0b0f14;--card:#10161d;--muted:#8aa0b6;--text:#e6eef6;--accent:#7dd3fc;--shadow:0 10px 30px rgba(0,0,0,.25);--radius:1.25rem;}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--text);}
+    h1,h2{margin-top:0}.container{width:min(1100px,90%);margin:2rem auto;}
+    .card{background:var(--card);padding:2rem;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:2rem;}
+    label,input,select{display:block;width:100%;margin-bottom:.75rem;}
+    input,select{padding:.6rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.12);background:#0f161f;color:var(--text);}
+    input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(125,211,252,.3);}
+    button{cursor:pointer;border:none;border-radius:999px;padding:.6rem 1rem;font-weight:600;}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#0a0f14;box-shadow:var(--shadow);}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--text);}
+    table{width:100%;border-collapse:collapse;margin-top:1rem;}
+    th,td{padding:.75rem;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;}
+    tr:hover{background:rgba(255,255,255,.05);}
+    .actions button{margin-right:.5rem;}
+    .hidden{display:none;}
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <nav class="nav">
-      <a class="brand" href="#top">suaMarca</a>
-      <div class="menu">
-        <a href="#hero">Cadastro</a>
-      </div>
-    </nav>
-  </header>
+  <div class="container">
+    <!-- LOGIN -->
+    <div id="loginCard" class="card">
+      <h1>Login</h1>
+      <form id="loginForm">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required />
+        <label for="loginPassword">Senha</label>
+        <input type="password" id="loginPassword" required />
+        <button type="submit" class="btn-primary">Entrar</button>
+      </form>
+      <p id="loginMsg"></p>
+    </div>
 
-  <!-- Hero / Formulário -->
-  <section id="hero" class="hero">
-    <div class="container">
-      <div>
-        <h1>Cadastre-se</h1>
-        <p>Preencha os dados abaixo para criar um novo usuário.</p>
-        <div class="card">
-          <form id="userForm">
-            <label for="name">Nome</label>
-            <input type="text" id="name" name="name" placeholder="Seu nome" required />
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="seu@email.com" required />
-            
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-          </form>
-          <p id="responseMessage" style="margin-top:1rem; color: var(--accent);"></p>
-        </div>
+    <!-- CRUD -->
+    <div id="crudSection" class="hidden">
+      <h1>Gerenciamento de Usuários</h1>
+      <button id="logoutBtn" class="btn-ghost" style="float:right">Sair</button>
+
+      <div class="card">
+        <h2>Cadastrar Usuário</h2>
+        <form id="userForm">
+          <label>Email</label>
+          <input type="email" id="email" required />
+          <label>Senha</label>
+          <input type="password" id="password" required />
+          <label>Nível de Acesso</label>
+          <select id="accessLevel" required>
+            <option value="administrativo">Administrativo</option>
+            <option value="gerencial">Gerencial</option>
+            <option value="visualizacao" selected>Visualização</option>
+          </select>
+          <button type="submit" class="btn-primary">Cadastrar</button>
+        </form>
+        <p id="responseMessage"></p>
       </div>
-      <div>
-        <img class="img-fluid" src="https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2?q=80&w=1600&auto=format&fit=crop" alt="Cadastro de usuário" loading="lazy" />
+
+      <div class="card">
+        <h2>Usuários</h2>
+        <button id="refreshBtn" class="btn-ghost">Atualizar Lista</button>
+        <table id="userTable">
+          <thead><tr><th>ID</th><th>Email</th><th>Nível</th><th>Ações</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="editCard" class="card hidden">
+        <h2>Editar Usuário</h2>
+        <form id="editForm">
+          <input type="hidden" id="editId" />
+          <label>Email</label>
+          <input type="email" id="editEmail" required />
+          <label>Nova Senha (opcional)</label>
+          <input type="password" id="editPassword" />
+          <label>Nível de Acesso</label>
+          <select id="editAccessLevel" required>
+            <option value="administrativo">Administrativo</option>
+            <option value="gerencial">Gerencial</option>
+            <option value="visualizacao">Visualização</option>
+          </select>
+          <button type="submit" class="btn-primary">Salvar</button>
+          <button type="button" id="cancelEdit" class="btn-ghost">Cancelar</button>
+        </form>
+        <p id="editMessage"></p>
       </div>
     </div>
-  </section>
-
-  <footer style="padding:2rem; color: var(--muted); text-align:center;">© <span id="year"></span> Guilherme Carvalho</footer>
+  </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const API_URL = 'http://localhost:3005';
+    const token = () => localStorage.getItem('token');
 
+    const loginCard = document.getElementById('loginCard');
+    const crudSection = document.getElementById('crudSection');
+    const loginForm = document.getElementById('loginForm');
+    const loginMsg = document.getElementById('loginMsg');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Mostrar CRUD se logado
+    if(token()){loginCard.classList.add('hidden');crudSection.classList.remove('hidden');}
+
+    // LOGIN
+    loginForm.addEventListener('submit', async e=>{
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      try{
+        const res=await fetch(`${API_URL}/login`,{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({email,password})
+        });
+        const data=await res.json();
+        if(res.ok){
+          localStorage.setItem('token',data.token);
+          loginCard.classList.add('hidden');
+          crudSection.classList.remove('hidden');
+          loadUsers();
+        }else{
+          loginMsg.style.color='orange';
+          loginMsg.textContent=data.message||'Falha no login';
+        }
+      }catch(err){loginMsg.style.color='red';loginMsg.textContent='Erro de conexão';}
+    });
+
+    logoutBtn.addEventListener('click',()=>{
+      localStorage.removeItem('token');
+      location.reload();
+    });
+
+    // CRUD
     const form = document.getElementById('userForm');
     const responseMessage = document.getElementById('responseMessage');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const userTableBody = document.querySelector('#userTable tbody');
+    const editCard = document.getElementById('editCard');
+    const editForm = document.getElementById('editForm');
+    const editMessage = document.getElementById('editMessage');
+    const cancelEdit = document.getElementById('cancelEdit');
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit',async e=>{
       e.preventDefault();
-
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-
-      if(!name || !email) return;
-
-      try {
-        const res = await fetch('http://localhost:3005/users', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email })
+      const email=document.getElementById('email').value.trim();
+      const password=document.getElementById('password').value.trim();
+      const accessLevel=document.getElementById('accessLevel').value;
+      try{
+        const res=await fetch(`${API_URL}/users`,{
+          method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token()}`},
+          body:JSON.stringify({email,password,accessLevel})
         });
-
-        const data = await res.json();
-
+        const data=await res.json();
         if(res.ok){
-          responseMessage.style.color = 'lightgreen';
-          responseMessage.textContent = `Usuário ${data.name} cadastrado com sucesso!`;
-          form.reset();
-        } else {
-          responseMessage.style.color = 'orange';
-          responseMessage.textContent = data.message || 'Erro ao cadastrar';
+          responseMessage.style.color='lightgreen';
+          responseMessage.textContent=`Usuário ${data.user.email} cadastrado!`;
+          form.reset();loadUsers();
+        }else{
+          responseMessage.style.color='orange';
+          responseMessage.textContent=data.message||'Erro';
         }
-
-      } catch(err){
-        responseMessage.style.color = 'red';
-        responseMessage.textContent = 'Erro de conexão com o servidor';
-      }
+      }catch(err){responseMessage.style.color='red';responseMessage.textContent='Erro de conexão';}
     });
+
+    async function loadUsers(){
+      userTableBody.innerHTML='';
+      const res=await fetch(`${API_URL}/users`,{headers:{'Authorization':`Bearer ${token()}`}});
+      const users=await res.json();
+      users.forEach(u=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${u.id}</td><td>${u.email}</td><td>${u.accessLevel}</td>
+          <td class="actions">
+            <button class="btn-ghost" onclick="editUser(${u.id},'${u.email}','${u.accessLevel}')">Editar</button>
+            <button class="btn-ghost" onclick="deleteUser(${u.id})">Excluir</button>
+          </td>`;
+        userTableBody.appendChild(tr);
+      });
+    }
+
+    window.editUser=(id,email,level)=>{
+      editCard.classList.remove('hidden');
+      editForm.editId.value=id;
+      editForm.editEmail.value=email;
+      editForm.editPassword.value='';
+      editForm.editAccessLevel.value=level;
+      editMessage.textContent='';
+      window.scrollTo({top:0,behavior:'smooth'});
+    };
+    cancelEdit.addEventListener('click',()=>editCard.classList.add('hidden'));
+
+    editForm.addEventListener('submit',async e=>{
+      e.preventDefault();
+      const id=editForm.editId.value;
+      const email=editForm.editEmail.value.trim();
+      const password=editForm.editPassword.value.trim();
+      const accessLevel=editForm.editAccessLevel.value;
+      try{
+        const res=await fetch(`${API_URL}/users/${id}`,{
+          method:'PUT',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token()}`},
+          body:JSON.stringify({email,password:password||undefined,accessLevel})
+        });
+        const data=await res.json();
+        if(res.ok){editMessage.style.color='lightgreen';editMessage.textContent='Usuário atualizado!';loadUsers();setTimeout(()=>editCard.classList.add('hidden'),1000);}
+        else{editMessage.style.color='orange';editMessage.textContent=data.message||'Erro';}
+      }catch(err){editMessage.style.color='red';editMessage.textContent='Erro de conexão';}
+    });
+
+    window.deleteUser=async id=>{
+      if(!confirm('Excluir este usuário?'))return;
+      const res=await fetch(`${API_URL}/users/${id}`,{method:'DELETE',headers:{'Authorization':`Bearer ${token()}`}});
+      const data=await res.json();
+      if(res.ok){loadUsers();}else{alert(data.message||'Erro');}
+    };
+
+    refreshBtn.addEventListener('click',loadUsers);
   </script>
 </body>
 </html>
