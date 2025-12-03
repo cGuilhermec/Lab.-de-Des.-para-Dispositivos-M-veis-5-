@@ -1,223 +1,767 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sistema de Usuários</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg:#0b0f14;--card:#10161d;--muted:#8aa0b6;--text:#e6eef6;--accent:#7dd3fc;--shadow:0 10px 30px rgba(0,0,0,.25);--radius:1.25rem;}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--text);}
-    h1,h2{margin-top:0}.container{width:min(1100px,90%);margin:2rem auto;}
-    .card{background:var(--card);padding:2rem;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:2rem;}
-    label,input,select{display:block;width:100%;margin-bottom:.75rem;}
-    input,select{padding:.6rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.12);background:#0f161f;color:var(--text);}
-    input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(125,211,252,.3);}
-    button{cursor:pointer;border:none;border-radius:999px;padding:.6rem 1rem;font-weight:600;}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#0a0f14;box-shadow:var(--shadow);}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--text);}
-    table{width:100%;border-collapse:collapse;margin-top:1rem;}
-    th,td{padding:.75rem;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;}
-    tr:hover{background:rgba(255,255,255,.05);}
-    .actions button{margin-right:.5rem;}
-    .hidden{display:none;}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <!-- LOGIN -->
-    <div id="loginCard" class="card">
-      <h1>Login</h1>
-      <form id="loginForm">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required />
-        <label for="loginPassword">Senha</label>
-        <input type="password" id="loginPassword" required />
-        <button type="submit" class="btn-primary">Entrar</button>
-      </form>
-      <p id="loginMsg"></p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sistema de Usuários</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0f14;
+        --card: #10161d;
+        --muted: #8aa0b6;
+        --text: #e6eef6;
+        --accent: #7dd3fc;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        --radius: 1.25rem;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, Arial;
+        background: var(--bg);
+        color: var(--text);
+      }
+      h1,
+      h2 {
+        margin-top: 0;
+      }
+      .container {
+        width: min(1100px, 90%);
+        margin: 2rem auto;
+      }
+      .card {
+        background: var(--card);
+        padding: 2rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+      }
+      label,
+      input,
+      select {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.75rem;
+      }
+      input,
+      select {
+        padding: 0.6rem;
+        border-radius: 0.6rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: #0f161f;
+        color: var(--text);
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.3);
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        border-radius: 999px;
+        padding: 0.6rem 1rem;
+        font-weight: 600;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--accent), #60a5fa);
+        color: #0a0f14;
+        box-shadow: var(--shadow);
+      }
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--text);
+      }
+      .btn-danger {
+        background: #ef4444;
+        color: white;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+      th,
+      td {
+        padding: 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: left;
+      }
+      tr:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .actions button {
+        margin-right: 0.5rem;
+      }
+      .hidden {
+        display: none;
+      }
+      .badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+      .badge-visualizacao {
+        background: #10b981;
+      }
+      .badge-gerencial {
+        background: #f59e0b;
+      }
+      .badge-administrativo {
+        background: #ef4444;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .stat-card {
+        text-align: center;
+        padding: 1.5rem;
+        background: rgba(125, 211, 252, 0.1);
+        border-radius: 0.5rem;
+      }
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--accent);
+      }
+      .stat-label {
+        color: var(--muted);
+        margin: 0;
+      }
+      .logs-container {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-top: 1rem;
+      }
+      .log-entry {
+        padding: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.9rem;
+      }
+      .log-entry:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- LOGIN -->
+      <div id="loginCard" class="card">
+        <h1>🔐 Login</h1>
+        <form id="loginForm">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required />
+          <label for="loginPassword">Senha</label>
+          <input type="password" id="loginPassword" required />
+          <button type="submit" class="btn-primary">Entrar</button>
+        </form>
+        <p id="loginMsg"></p>
+      </div>
+
+      <!-- CRUD -->
+      <div id="crudSection" class="hidden">
+        <!-- Header -->
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <div>
+            <h1 style="margin: 0">🚀 Sistema de Usuários</h1>
+            <p
+              id="userInfo"
+              style="margin: 0; color: var(--muted); font-size: 0.9rem"
+            >
+              Carregando...
+            </p>
+          </div>
+          <button id="logoutBtn" class="btn-ghost">🚪 Sair</button>
+        </div>
+
+        <!-- Card de Estatísticas -->
+        <div id="statsCard" class="card hidden">
+          <h2>📊 Dashboard</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3 class="stat-number" id="totalUsers">0</h3>
+              <p class="stat-label">Total de Usuários</p>
+            </div>
+            <div class="stat-card">
+              <h3 class="stat-number" id="adminUsers">0</h3>
+              <p class="stat-label">Administradores</p>
+            </div>
+            <div class="stat-card">
+              <h3 class="stat-number" id="gerencialUsers">0</h3>
+              <p class="stat-label">Gerenciais</p>
+            </div>
+            <div class="stat-card">
+              <h3 class="stat-number" id="visualizacaoUsers">0</h3>
+              <p class="stat-label">Visualização</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cadastrar Usuário -->
+        <div id="createUserCard" class="card hidden">
+          <h2>👥 Cadastrar Novo Usuário</h2>
+          <form id="userForm">
+            <label>Email</label>
+            <input type="email" id="email" required />
+            <label>Senha</label>
+            <input type="password" id="password" required />
+            <label>Nível de Acesso</label>
+            <select id="accessLevel" required>
+              <option value="visualizacao">Visualização</option>
+              <option value="gerencial">Gerencial</option>
+              <option value="administrativo">Administrativo</option>
+            </select>
+            <button type="submit" class="btn-primary">
+              📝 Cadastrar Usuário
+            </button>
+          </form>
+          <p id="responseMessage"></p>
+        </div>
+
+        <!-- Lista de Usuários -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 1rem;
+            "
+          >
+            <h2 style="margin: 0">👤 Lista de Usuários</h2>
+            <div>
+              <button id="refreshBtn" class="btn-ghost">🔄 Atualizar</button>
+            </div>
+          </div>
+
+          <!-- Filtros -->
+          <div id="filters" class="hidden" style="margin-bottom: 1rem">
+            <label>Filtrar por nível:</label>
+            <select id="filterLevel" onchange="filterUsers()">
+              <option value="all">Todos os níveis</option>
+              <option value="visualizacao">Apenas Visualização</option>
+              <option value="gerencial">Apenas Gerencial</option>
+              <option value="administrativo">Apenas Administrativo</option>
+            </select>
+          </div>
+
+          <table id="userTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Nível</th>
+                <th>Data Criação</th>
+                <th id="actionsHeader">Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Editar Usuário -->
+        <div id="editCard" class="card hidden">
+          <h2>✏️ Editar Usuário</h2>
+          <form id="editForm">
+            <input type="hidden" id="editId" />
+            <label>Email</label>
+            <input type="email" id="editEmail" required />
+            <label>Nova Senha (opcional)</label>
+            <input type="password" id="editPassword" />
+            <label>Nível de Acesso</label>
+            <select id="editAccessLevel" required>
+              <option value="visualizacao">Visualização</option>
+              <option value="gerencial">Gerencial</option>
+              <option value="administrativo">Administrativo</option>
+            </select>
+            <button type="submit" class="btn-primary">
+              💾 Salvar Alterações
+            </button>
+            <button type="button" id="cancelEdit" class="btn-ghost">
+              ❌ Cancelar
+            </button>
+          </form>
+          <p id="editMessage"></p>
+        </div>
+
+        <!-- Card de Logs -->
+        <div id="logsCard" class="card hidden">
+          <h2>📋 Logs de Atividade</h2>
+          <div class="logs-container">
+            <div id="logsList">
+              <p style="color: var(--muted); text-align: center">
+                Nenhuma atividade registrada
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- CRUD -->
-    <div id="crudSection" class="hidden">
-      <h1>Gerenciamento de Usuários</h1>
-      <button id="logoutBtn" class="btn-ghost" style="float:right">Sair</button>
+    <script>
+      const API_URL = "http://localhost:3005";
+      const token = () => localStorage.getItem("token");
+      let currentUser = null;
+      let allUsers = [];
 
-      <div class="card">
-        <h2>Cadastrar Usuário</h2>
-        <form id="userForm">
-          <label>Email</label>
-          <input type="email" id="email" required />
-          <label>Senha</label>
-          <input type="password" id="password" required />
-          <label>Nível de Acesso</label>
-          <select id="accessLevel" required>
-            <option value="administrativo">Administrativo</option>
-            <option value="gerencial">Gerencial</option>
-            <option value="visualizacao" selected>Visualização</option>
-          </select>
-          <button type="submit" class="btn-primary">Cadastrar</button>
-        </form>
-        <p id="responseMessage"></p>
-      </div>
+      // Elementos da UI
+      const loginCard = document.getElementById("loginCard");
+      const crudSection = document.getElementById("crudSection");
+      const loginForm = document.getElementById("loginForm");
+      const loginMsg = document.getElementById("loginMsg");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const userInfo = document.getElementById("userInfo");
 
-      <div class="card">
-        <h2>Usuários</h2>
-        <button id="refreshBtn" class="btn-ghost">Atualizar Lista</button>
-        <table id="userTable">
-          <thead><tr><th>ID</th><th>Email</th><th>Nível</th><th>Ações</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      // Cards por permissão
+      const statsCard = document.getElementById("statsCard");
+      const createUserCard = document.getElementById("createUserCard");
+      const filters = document.getElementById("filters");
+      const actionsHeader = document.getElementById("actionsHeader");
+      const logsCard = document.getElementById("logsCard");
 
-      <div id="editCard" class="card hidden">
-        <h2>Editar Usuário</h2>
-        <form id="editForm">
-          <input type="hidden" id="editId" />
-          <label>Email</label>
-          <input type="email" id="editEmail" required />
-          <label>Nova Senha (opcional)</label>
-          <input type="password" id="editPassword" />
-          <label>Nível de Acesso</label>
-          <select id="editAccessLevel" required>
-            <option value="administrativo">Administrativo</option>
-            <option value="gerencial">Gerencial</option>
-            <option value="visualizacao">Visualização</option>
-          </select>
-          <button type="submit" class="btn-primary">Salvar</button>
-          <button type="button" id="cancelEdit" class="btn-ghost">Cancelar</button>
-        </form>
-        <p id="editMessage"></p>
-      </div>
-    </div>
-  </div>
+      // CRUD Elements
+      const form = document.getElementById("userForm");
+      const responseMessage = document.getElementById("responseMessage");
+      const refreshBtn = document.getElementById("refreshBtn");
+      const userTableBody = document.querySelector("#userTable tbody");
+      const editCard = document.getElementById("editCard");
+      const editForm = document.getElementById("editForm");
+      const editMessage = document.getElementById("editMessage");
+      const cancelEdit = document.getElementById("cancelEdit");
 
-  <script>
-    const API_URL = 'http://localhost:3005';
-    const token = () => localStorage.getItem('token');
+      // Mostrar CRUD se logado
+      if (token()) {
+        loginCard.classList.add("hidden");
+        crudSection.classList.remove("hidden");
+        loadUsers();
+      }
 
-    const loginCard = document.getElementById('loginCard');
-    const crudSection = document.getElementById('crudSection');
-    const loginForm = document.getElementById('loginForm');
-    const loginMsg = document.getElementById('loginMsg');
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    // Mostrar CRUD se logado
-    if(token()){loginCard.classList.add('hidden');crudSection.classList.remove('hidden');}
-
-    // LOGIN
-    loginForm.addEventListener('submit', async e=>{
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
-      try{
-        const res=await fetch(`${API_URL}/login`,{
-          method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({email,password})
-        });
-        const data=await res.json();
-        if(res.ok){
-          localStorage.setItem('token',data.token);
-          loginCard.classList.add('hidden');
-          crudSection.classList.remove('hidden');
-          loadUsers();
-        }else{
-          loginMsg.style.color='orange';
-          loginMsg.textContent=data.message||'Falha no login';
+      // LOGIN
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value.trim();
+        try {
+          const res = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            localStorage.setItem("token", data.token);
+            loginCard.classList.add("hidden");
+            crudSection.classList.remove("hidden");
+            loadUsers();
+            addLog(`Usuário ${email} fez login`);
+          } else {
+            loginMsg.style.color = "orange";
+            loginMsg.textContent = data.message || "Falha no login";
+          }
+        } catch (err) {
+          loginMsg.style.color = "red";
+          loginMsg.textContent = "Erro de conexão";
         }
-      }catch(err){loginMsg.style.color='red';loginMsg.textContent='Erro de conexão';}
-    });
-
-    logoutBtn.addEventListener('click',()=>{
-      localStorage.removeItem('token');
-      location.reload();
-    });
-
-    // CRUD
-    const form = document.getElementById('userForm');
-    const responseMessage = document.getElementById('responseMessage');
-    const refreshBtn = document.getElementById('refreshBtn');
-    const userTableBody = document.querySelector('#userTable tbody');
-    const editCard = document.getElementById('editCard');
-    const editForm = document.getElementById('editForm');
-    const editMessage = document.getElementById('editMessage');
-    const cancelEdit = document.getElementById('cancelEdit');
-
-    form.addEventListener('submit',async e=>{
-      e.preventDefault();
-      const email=document.getElementById('email').value.trim();
-      const password=document.getElementById('password').value.trim();
-      const accessLevel=document.getElementById('accessLevel').value;
-      try{
-        const res=await fetch(`${API_URL}/users`,{
-          method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token()}`},
-          body:JSON.stringify({email,password,accessLevel})
-        });
-        const data=await res.json();
-        if(res.ok){
-          responseMessage.style.color='lightgreen';
-          responseMessage.textContent=`Usuário ${data.user.email} cadastrado!`;
-          form.reset();loadUsers();
-        }else{
-          responseMessage.style.color='orange';
-          responseMessage.textContent=data.message||'Erro';
-        }
-      }catch(err){responseMessage.style.color='red';responseMessage.textContent='Erro de conexão';}
-    });
-
-    async function loadUsers(){
-      userTableBody.innerHTML='';
-      const res=await fetch(`${API_URL}/users`,{headers:{'Authorization':`Bearer ${token()}`}});
-      const users=await res.json();
-      users.forEach(u=>{
-        const tr=document.createElement('tr');
-        tr.innerHTML=`<td>${u.id}</td><td>${u.email}</td><td>${u.accessLevel}</td>
-          <td class="actions">
-            <button class="btn-ghost" onclick="editUser(${u.id},'${u.email}','${u.accessLevel}')">Editar</button>
-            <button class="btn-ghost" onclick="deleteUser(${u.id})">Excluir</button>
-          </td>`;
-        userTableBody.appendChild(tr);
       });
-    }
 
-    window.editUser=(id,email,level)=>{
-      editCard.classList.remove('hidden');
-      editForm.editId.value=id;
-      editForm.editEmail.value=email;
-      editForm.editPassword.value='';
-      editForm.editAccessLevel.value=level;
-      editMessage.textContent='';
-      window.scrollTo({top:0,behavior:'smooth'});
-    };
-    cancelEdit.addEventListener('click',()=>editCard.classList.add('hidden'));
+      logoutBtn.addEventListener("click", () => {
+        addLog(`Usuário ${currentUser?.email} fez logout`);
+        localStorage.removeItem("token");
+        location.reload();
+      });
 
-    editForm.addEventListener('submit',async e=>{
-      e.preventDefault();
-      const id=editForm.editId.value;
-      const email=editForm.editEmail.value.trim();
-      const password=editForm.editPassword.value.trim();
-      const accessLevel=editForm.editAccessLevel.value;
-      try{
-        const res=await fetch(`${API_URL}/users/${id}`,{
-          method:'PUT',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token()}`},
-          body:JSON.stringify({email,password:password||undefined,accessLevel})
+      // Função para verificar permissões no frontend
+      // Função para verificar permissões no frontend
+      function hasPermission(requiredLevel) {
+        if (!currentUser) return false;
+
+        const levels = {
+          visualizacao: 1,
+          gerencial: 2,
+          administrativo: 3,
+        };
+
+        // Usar as chaves diretamente para evitar erro de tipo
+        const userLevel = currentUser.accessLevel;
+        const reqLevel = requiredLevel;
+
+        return levels[userLevel] >= levels[reqLevel];
+      }
+
+      // Atualizar UI baseado no nível de acesso
+      function updateUIForUserLevel() {
+        if (!currentUser) return;
+
+        userInfo.textContent = `${currentUser.email} (${currentUser.accessLevel})`;
+
+        // Visualização: Apenas ver usuários
+        if (currentUser.accessLevel === "visualizacao") {
+          statsCard.classList.add("hidden");
+          createUserCard.classList.add("hidden");
+          filters.classList.add("hidden");
+          actionsHeader.style.display = "none";
+          logsCard.classList.add("hidden");
+        }
+
+        // Gerencial: Ver stats e filtrar, mas não pode criar usuários
+        else if (currentUser.accessLevel === "gerencial") {
+          statsCard.classList.remove("hidden");
+          createUserCard.classList.add("hidden");
+          filters.classList.remove("hidden");
+          actionsHeader.style.display = "";
+          logsCard.classList.add("hidden");
+          updateStats();
+        }
+
+        // Administrativo: Acesso total
+        else if (currentUser.accessLevel === "administrativo") {
+          statsCard.classList.remove("hidden");
+          createUserCard.classList.remove("hidden");
+          filters.classList.remove("hidden");
+          actionsHeader.style.display = "";
+          logsCard.classList.remove("hidden");
+          updateStats();
+        }
+      }
+
+      // Atualizar estatísticas
+      function updateStats() {
+        const totalUsers = allUsers.length;
+        const adminUsers = allUsers.filter(
+          (u) => u.accessLevel === "administrativo"
+        ).length;
+        const gerencialUsers = allUsers.filter(
+          (u) => u.accessLevel === "gerencial"
+        ).length;
+        const visualizacaoUsers = allUsers.filter(
+          (u) => u.accessLevel === "visualizacao"
+        ).length;
+
+        document.getElementById("totalUsers").textContent = totalUsers;
+        document.getElementById("adminUsers").textContent = adminUsers;
+        document.getElementById("gerencialUsers").textContent = gerencialUsers;
+        document.getElementById("visualizacaoUsers").textContent =
+          visualizacaoUsers;
+      }
+
+      // Adicionar log
+      function addLog(message) {
+        if (!hasPermission("administrativo")) return;
+
+        const logsList = document.getElementById("logsList");
+        const logEntry = document.createElement("div");
+        logEntry.className = "log-entry";
+        logEntry.innerHTML = `
+        <span style="color: var(--muted);">${new Date().toLocaleString(
+          "pt-BR"
+        )}</span> - ${message}
+      `;
+
+        // Manter apenas os últimos 10 logs
+        const logs = logsList.querySelectorAll(".log-entry");
+        if (logs.length >= 10) {
+          logs[0].remove();
+        }
+
+        logsList.appendChild(logEntry);
+      }
+
+      // Carregar usuários
+      async function loadUsers() {
+        userTableBody.innerHTML =
+          '<tr><td colspan="5" style="text-align: center; color: var(--muted);">Carregando usuários...</td></tr>';
+
+        try {
+          const res = await fetch(`${API_URL}/users`, {
+            headers: {
+              Authorization: `Bearer ${token()}`,
+            },
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            currentUser = data.currentUser;
+            allUsers = data.users;
+
+            userTableBody.innerHTML = "";
+
+            if (allUsers.length === 0) {
+              userTableBody.innerHTML =
+                '<tr><td colspan="5" style="text-align: center; color: var(--muted);">Nenhum usuário cadastrado</td></tr>';
+            } else {
+              allUsers.forEach((u) => {
+                const tr = document.createElement("tr");
+                const canEdit =
+                  hasPermission("gerencial") && currentUser.id !== u.id;
+                const canDelete =
+                  hasPermission("administrativo") && currentUser.id !== u.id;
+
+                tr.innerHTML = `
+                <td>${u.id}</td>
+                <td>${u.email}</td>
+                <td>
+                  <span class="badge badge-${u.accessLevel}">
+                    ${u.accessLevel}
+                  </span>
+                </td>
+                <td>${new Date(u.createdAt).toLocaleDateString("pt-BR")}</td>
+                <td class="actions">
+                  ${
+                    canEdit
+                      ? `<button class="btn-ghost" onclick="editUser(${u.id},'${u.email}','${u.accessLevel}')">✏️ Editar</button>`
+                      : ""
+                  }
+                  ${
+                    canDelete
+                      ? `<button class="btn-danger" onclick="deleteUser(${u.id})">🗑️ Excluir</button>`
+                      : ""
+                  }
+                  ${
+                    !canEdit && !canDelete
+                      ? '<span style="color: var(--muted);">-</span>'
+                      : ""
+                  }
+                </td>
+              `;
+                userTableBody.appendChild(tr);
+              });
+            }
+
+            updateUIForUserLevel();
+            updateStats();
+            addLog(`Lista de usuários carregada - ${allUsers.length} usuários`);
+          } else {
+            userTableBody.innerHTML =
+              '<tr><td colspan="5" style="text-align: center; color: orange;">Erro ao carregar usuários</td></tr>';
+          }
+        } catch (error) {
+          userTableBody.innerHTML =
+            '<tr><td colspan="5" style="text-align: center; color: red;">Erro de conexão</td></tr>';
+        }
+      }
+
+      // Filtrar usuários
+      window.filterUsers = function () {
+        const filter = document.getElementById("filterLevel").value;
+        const rows = userTableBody.querySelectorAll("tr");
+
+        rows.forEach((row) => {
+          if (row.cells.length < 3) return;
+
+          const levelCell = row.cells[2];
+          const badge = levelCell.querySelector(".badge");
+          if (!badge) return;
+
+          const level = badge.className.includes("visualizacao")
+            ? "visualizacao"
+            : badge.className.includes("gerencial")
+            ? "gerencial"
+            : badge.className.includes("administrativo")
+            ? "administrativo"
+            : "";
+
+          if (filter === "all" || level === filter) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
         });
-        const data=await res.json();
-        if(res.ok){editMessage.style.color='lightgreen';editMessage.textContent='Usuário atualizado!';loadUsers();setTimeout(()=>editCard.classList.add('hidden'),1000);}
-        else{editMessage.style.color='orange';editMessage.textContent=data.message||'Erro';}
-      }catch(err){editMessage.style.color='red';editMessage.textContent='Erro de conexão';}
-    });
 
-    window.deleteUser=async id=>{
-      if(!confirm('Excluir este usuário?'))return;
-      const res=await fetch(`${API_URL}/users/${id}`,{method:'DELETE',headers:{'Authorization':`Bearer ${token()}`}});
-      const data=await res.json();
-      if(res.ok){loadUsers();}else{alert(data.message||'Erro');}
-    };
+        addLog(`Filtro aplicado: ${filter}`);
+      };
 
-    refreshBtn.addEventListener('click',loadUsers);
-  </script>
-</body>
+      // Cadastrar usuário
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (!hasPermission("administrativo")) {
+          responseMessage.style.color = "orange";
+          responseMessage.textContent =
+            "Apenas administradores podem criar usuários";
+          return;
+        }
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const accessLevel = document.getElementById("accessLevel").value;
+
+        try {
+          const res = await fetch(`${API_URL}/users`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token()}`,
+            },
+            body: JSON.stringify({ email, password, accessLevel }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            responseMessage.style.color = "lightgreen";
+            responseMessage.textContent = `Usuário ${data.user.email} cadastrado com sucesso!`;
+            form.reset();
+            loadUsers();
+            addLog(`Novo usuário criado: ${email} (${accessLevel})`);
+          } else {
+            responseMessage.style.color = "orange";
+            responseMessage.textContent =
+              data.error || "Erro ao cadastrar usuário";
+          }
+        } catch (err) {
+          responseMessage.style.color = "red";
+          responseMessage.textContent = "Erro de conexão";
+        }
+      });
+
+      // Editar usuário
+      window.editUser = function (id, email, level) {
+        if (!hasPermission("gerencial")) {
+          alert("❌ Você não tem permissão para editar usuários");
+          return;
+        }
+
+        // Gerencial não pode editar administradores
+        if (
+          currentUser.accessLevel === "gerencial" &&
+          level === "administrativo"
+        ) {
+          alert("❌ Usuários gerenciais não podem editar administradores");
+          return;
+        }
+
+        editCard.classList.remove("hidden");
+        editForm.editId.value = id;
+        editForm.editEmail.value = email;
+        editForm.editPassword.value = "";
+        editForm.editAccessLevel.value = level;
+        editMessage.textContent = "";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      cancelEdit.addEventListener("click", () => {
+        editCard.classList.add("hidden");
+        editMessage.textContent = "";
+      });
+
+      editForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const id = editForm.editId.value;
+        const email = editForm.editEmail.value.trim();
+        const password = editForm.editPassword.value.trim();
+        const accessLevel = editForm.editAccessLevel.value;
+
+        try {
+          const res = await fetch(`${API_URL}/users/${id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token()}`,
+            },
+            body: JSON.stringify({
+              email,
+              password: password || undefined,
+              accessLevel,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            editMessage.style.color = "lightgreen";
+            editMessage.textContent = "✅ Usuário atualizado com sucesso!";
+            loadUsers();
+            addLog(`Usuário ${email} atualizado para nível ${accessLevel}`);
+            setTimeout(() => {
+              editCard.classList.add("hidden");
+              editMessage.textContent = "";
+            }, 2000);
+          } else {
+            editMessage.style.color = "orange";
+            editMessage.textContent = data.error || "Erro ao atualizar usuário";
+          }
+        } catch (err) {
+          editMessage.style.color = "red";
+          editMessage.textContent = "Erro de conexão";
+        }
+      });
+
+      // Excluir usuário
+      window.deleteUser = async function (id) {
+        if (!hasPermission("administrativo")) {
+          alert("❌ Apenas administradores podem excluir usuários");
+          return;
+        }
+
+        const user = allUsers.find((u) => u.id == id);
+        if (!user) return;
+
+        if (
+          !confirm(
+            `⚠️ Tem certeza que deseja excluir o usuário "${user.email}"?\nEsta ação não pode ser desfeita.`
+          )
+        ) {
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_URL}/users/${id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token()}`,
+            },
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            loadUsers();
+            addLog(`Usuário ${user.email} excluído`);
+          } else {
+            alert(data.error || "Erro ao excluir usuário");
+          }
+        } catch (err) {
+          alert("Erro de conexão");
+        }
+      };
+
+      // Atualizar lista
+      refreshBtn.addEventListener("click", () => {
+        loadUsers();
+        addLog("Lista de usuários atualizada manualmente");
+      });
+
+      // Inicializar
+      if (token()) {
+        loadUsers();
+      }
+    </script>
+  </body>
 </html>
