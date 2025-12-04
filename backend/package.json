@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "test": "jest",
+    "test:dia2": "jest dia2-characterization.test.ts",
+    "test:dia4": "jest dia4-tdd.test.ts",
+    "test:dia6": "jest dia6-e2e.test.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +29,10 @@
   },
   "devDependencies": {
     "@prisma/client": "^6.16.1",
-    "@types/express": "^5.0.3"
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.6"
   }
 }
